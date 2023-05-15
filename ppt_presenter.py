@@ -23,11 +23,22 @@ FFMPEG_NAME = 'ffmpeg'
 def ppt_presenter(pptx_path, pdf_path, output_path):
 
 
-    # -*- coding: utf-8 -*-
     import pyttsx3
 
-    # ����һ���������
     engine = pyttsx3.init()
+    # 获取所有可用于选取声音的列表
+    voices = engine.getProperty('voices')
+
+    # 设置要使用的音色（0为男性声音）
+    engine.setProperty('voice', voices[0].id)
+
+    # 设置语速(默认值为200)
+    rate = engine.getProperty('rate')
+    engine.setProperty('rate', rate - 20)  # 将语速降低50
+
+    # 设置音量(在0~1之间, 默认为1)
+    volume = engine.getProperty('volume')
+    engine.setProperty('volume', volume)  # 将音量减小至75%
     
     with tempfile.TemporaryDirectory() as temp_path:
 
