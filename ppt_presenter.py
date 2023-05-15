@@ -16,12 +16,22 @@ __author__ = ['chaonan99']
 
 
 ## Sometimes ffmpeg is avconv
-# FFMPEG_NAME = 'ffmpeg'
-FFMPEG_NAME = 'avconv'
+FFMPEG_NAME = 'ffmpeg'
+# FFMPEG_NAME = 'avconv'
 
 
 def ppt_presenter(pptx_path, pdf_path, output_path):
+
+
+    # -*- coding: utf-8 -*-
+    import pyttsx3
+
+    # 创建一个引擎对象
+    engine = pyttsx3.init()
+    
     with tempfile.TemporaryDirectory() as temp_path:
+
+        
         images_from_path = convert_from_path(pdf_path)
         prs = Presentation(pptx_path)
         assert len(images_from_path) == len(prs.slides)
@@ -33,7 +43,9 @@ def ppt_presenter(pptx_path, pdf_path, output_path):
                 audio_path = os.path.join(temp_path, 'frame_{}.mp3'.format(i))
 
                 image.save(image_path)
-                tts.save(audio_path)
+                # tts.save(audio_path)
+                engine.save_to_file(notes, audio_path)
+                engine.runAndWait()
 
                 ffmpeg_call(image_path, audio_path, temp_path, i)
 
